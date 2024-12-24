@@ -1,6 +1,6 @@
 # pokemon
 ## Descripción
-Esta aplicación permite visualizar una lista de Pokémon favoritos usando la API de PokeAPI. Los datos se almacenan en el Vuex Store y se consumen mediante axios.
+Esta aplicación permite visualizar una lista de Pokémon usando la API de PokeAPI y también tener una lista con tus pokemones favoritos. Los datos se almacenan en el Vuex Store y se consumen mediante axios.
 
 ## Estructura del Proyecto
 - **src/**: Contiene la lógica principal de la aplicación.

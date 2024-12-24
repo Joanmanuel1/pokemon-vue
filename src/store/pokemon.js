@@ -5,6 +5,7 @@ const state = {
   loading: false,
   error: null,
   favoritePokemons: {},
+  pokemonDetails: null,
 };
 
 const getters = {
@@ -13,6 +14,7 @@ const getters = {
   error: (state) => state.error,
   favoritePokemons: (state) => state.favoritePokemons,
   isFavorite: (state) => (id) => state.favoritePokemons[id] || false, 
+  pokemonDetails: (state) => state.pokemonDetails,
 };
 
 const mutations = {
@@ -27,6 +29,12 @@ const mutations = {
   },
   setFavoritePokemon(state, { id, isFavorite }) {
     state.favoritePokemons[id] = isFavorite;
+  },
+  setPokemonDetails(state, details) {
+    state.pokemonDetails = details;
+  },
+  clearPokemonDetails(state) {
+    state.pokemonDetails = null;
   },
 };
 
@@ -46,6 +54,20 @@ const actions = {
   toggleFavorite({ commit, getters }, id) {
     const isFavorite = !getters.isFavorite(id);
     commit('setFavoritePokemon', { id, isFavorite });
+  },
+
+  async fetchPokemonDetails({ commit }, id) {
+    try {
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+      const data = await response.json();
+      commit('setPokemonDetails', data);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  clearPokemonDetails({ commit }) {
+    commit('clearPokemonDetails');
   },
   
 };
