@@ -63,7 +63,7 @@
             rounded
             raised
             label="Go back home"
-            @click="nameFilter = null"
+            @click="reset()"
           />
         </div>
       </template>
@@ -109,6 +109,7 @@ import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import PokemonDetail from "@/components/PokemonDetail.vue";
 import Loading from '@/components/Loading.vue';
+import '@/css/globalStyles.css'
 
 export default {
   name: "pokemon-list",
@@ -187,23 +188,15 @@ export default {
       this.selectedPokemonFavorite = null;
       this.isModalVisible = false;
     },
+    reset(){
+      this.nameFilter = null;
+      this.showFavorites = false;
+    }
   },
 };
 </script>
 
 <style scoped>
-.error {
-  color: red;
-}
-
-.pi-star {
-  cursor: pointer;
-  color: #ffcc00;
-}
-
-.pi-star-fill {
-  color: #ffd700;
-}
 
 .container {
   max-width: 500px;

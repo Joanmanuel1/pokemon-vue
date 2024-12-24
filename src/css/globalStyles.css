@@ -1,0 +1,17 @@
+.pi-star {
+    cursor: pointer;
+    color: #ffcc00;
+  }
+  
+  .pi-star-fill {
+    color: #ffd700;
+  }
+
+  @media (max-width: 768px) {
+    .p-toast {
+      width: 90% !important;
+      left: 5% !important;
+      bottom: 10% !important;
+    }
+  }
+  

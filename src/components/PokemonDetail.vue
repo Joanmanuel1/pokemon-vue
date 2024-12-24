@@ -3,16 +3,13 @@
     <Loading v-if="!pokemonDetails" />
     <div class="custom-modal" v-else>
       <div class="card">
-        <!-- Botón de cierre -->
         <i class="pi pi-times-circle close-button" @click="$emit('close')"></i>
-
         <div class="image-container">
           <img
             src="../assets/fondoDetail.png"
             alt="Background"
             class="background-image"
           />
-
           <img
             v-if="
               pokemonDetails?.sprites?.other['official-artwork']
@@ -37,15 +34,16 @@
           <p><strong>Types:</strong> {{ formattedTypes }}</p>
         </div>
         <div class="button-group d-flex justify-content-between">
-          <div style="justify-content: start; display: flex; width: 50%">
+          <div style="justify-content: start; display: flex; width: 70%">
             <Button
               label="Share to my friends"
               severity="danger"
               rounded
               raised
+              @click="copyToClipboard"
             />
           </div>
-          <div style="justify-content: end; display: flex; width: 50%">
+          <div style="justify-content: end; display: flex; width: 30%">
             <Button rounded severity="secondary" raised text disabled>
               <i :class="isFavorite ? 'pi pi-star-fill' : 'pi pi-star'" />
             </Button>
@@ -60,12 +58,18 @@
 import Button from "primevue/button";
 import { mapGetters, mapActions } from "vuex";
 import Loading from "@/components/Loading.vue";
+import "@/css/globalStyles.css";
+import { useToast } from "primevue/usetoast";
 
 export default {
   name: "PokemonDetail",
   components: {
     Button,
     Loading,
+  },
+  setup() {
+    const toast = useToast();
+    return { toast };
   },
   props: {
     pokemonId: {
@@ -82,7 +86,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["pokemonDetails"]), // Mapa el getter de Vuex
+    ...mapGetters(["pokemonDetails"]),
 
     formattedTypes() {
       if (!this.pokemonDetails || !this.pokemonDetails.types) {
@@ -112,6 +116,35 @@ export default {
     },
     closeModal() {
       this.$emit("close");
+    },
+    copyToClipboard() {
+      if (!this.pokemonDetails) return;
+
+      const name = this.capitalize(this.pokemonDetails.name);
+      const weight = this.pokemonDetails.weight;
+      const height = this.pokemonDetails.height;
+      const types = this.formattedTypes;
+
+      const textToCopy = `Name: ${name}, Weight: ${weight}, Height: ${height}, Types: ${types}`;
+
+      navigator.clipboard
+        .writeText(textToCopy)
+        .then(() => {
+          this.toast.add({
+            severity: "success",
+            summary: "Success",
+            detail: "Pokemon details copied to clipboard!",
+            life: 3000,
+          });
+        })
+        .catch(() => {
+          this.toast.add({
+            severity: "error",
+            summary: "Error",
+            detail: "Failed to copy text to clipboard.",
+            life: 3000,
+          });
+        });
     },
   },
 };
@@ -202,13 +235,5 @@ export default {
   margin-top: 10px;
   margin-bottom: 10px;
   width: 90%;
-}
-.pi-star {
-  cursor: pointer;
-  color: #ffcc00;
-}
-
-.pi-star-fill {
-  color: #ffd700;
 }
 </style>
