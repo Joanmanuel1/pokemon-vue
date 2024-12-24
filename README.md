@@ -47,3 +47,7 @@ npm run build
 ```
 npm run lint
 ```
+### Vitest
+```
+npx vitest run
+```

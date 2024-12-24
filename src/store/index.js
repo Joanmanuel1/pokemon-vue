@@ -1,8 +1,8 @@
 import { createStore } from 'vuex';
-import pokemon from './pokemon'; // Importa el módulo de Pokémon
+import pokemon from './pokemon';
 
 export default createStore({
   modules: {
-    pokemon, // Registra el módulo Pokémon
+    pokemon,
   },
 });

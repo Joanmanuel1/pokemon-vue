@@ -57,8 +57,8 @@
 <script>
 import Button from "primevue/button";
 import { mapGetters, mapActions } from "vuex";
-import Loading from "@/components/Loading.vue";
-import "@/css/globalStyles.css";
+import Loading from "../components/Loading.vue";
+import "../css/globalStyles.css";
 import { useToast } from "primevue/usetoast";
 
 export default {

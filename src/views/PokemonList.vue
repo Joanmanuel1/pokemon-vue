@@ -107,9 +107,9 @@ import DataTable1 from "primevue/datatable";
 import Column from "primevue/column";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
-import PokemonDetail from "@/components/PokemonDetail.vue";
-import Loading from '@/components/Loading.vue';
-import '@/css/globalStyles.css'
+import PokemonDetail from "../components/PokemonDetail.vue";
+import Loading from '../components/Loading.vue';
+import '../css/globalStyles.css'
 
 export default {
   name: "pokemon-list",
