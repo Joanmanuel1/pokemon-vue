@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
 .pi-star {
     cursor: pointer;
     color: #ffcc00;
@@ -5,6 +7,16 @@
   
   .pi-star-fill {
     color: #ffd700;
+  }
+
+  h1, h2, h3, h4, h5, p, li, label, span{
+    font-family: 'Lato';
+  }
+
+  .red{
+    background-color: #F22539; 
+    color: white; 
+    border: 1px solid white;
   }
 
   @media (max-width: 768px) {

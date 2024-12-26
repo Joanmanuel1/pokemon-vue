@@ -1,4 +1,5 @@
 <template>
+  <Toast style="height: 30px;"/>
   <div v-if="visible" class="custom-overlay">
     <Loading v-if="!pokemonDetails" />
     <div class="custom-modal" v-else>
@@ -37,9 +38,8 @@
           <div style="justify-content: start; display: flex; width: 70%">
             <Button
               label="Share to my friends"
-              severity="danger"
+              class="red"
               rounded
-              raised
               @click="copyToClipboard"
             />
           </div>
@@ -106,10 +106,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["fetchPokemonDetails"]), // Mapa la acción fetchPokemonDetails
+    ...mapActions(["fetchPokemonDetails"]),
 
     async loadPokemonDetails(id) {
-      await this.fetchPokemonDetails(id); // Utiliza la acción de Vuex
+      await this.fetchPokemonDetails(id);
     },
     capitalize(word) {
       return word.charAt(0).toUpperCase() + word.slice(1);
@@ -167,7 +167,7 @@ export default {
 .custom-modal {
   background: white;
   width: 90%;
-  max-width: 400px;
+  max-width: 570px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   overflow: hidden;
@@ -218,7 +218,7 @@ export default {
 .pokemon-details {
   margin-top: 20px;
   text-align: left;
-  font-family: Arial, sans-serif;
+  font-family: 'Lato';
   font-size: 16px;
   color: #333;
   width: 90%;

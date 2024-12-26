@@ -2,102 +2,109 @@
   <div class="container">
     <Loading v-if="isLoading" />
     <div v-else>
-
-
-
-    <div class="filter-input">
-      <InputText
-        v-model="nameFilter"
-        @input="onInputChange"
-        placeholder="Filter by name"
-        style="margin-bottom: 20px"
-      />
-    </div>
-
-    <DataTable1
-      ref="dataTable"
-      removableSort
-      :value="
-        showFavorites
-          ? filteredPokemons
-          : nameFilter
-          ? filteredPokemons
-          : pokemons
-      "
-      stripedRows
-      tableStyle="min-width: 5rem"
-      paginator
-      :rows="10"
-      :rowsPerPageOptions="[10, 25, 50, 100]"
-      @row-click="fetchPokemonDetails"
-    >
-      <Column field="name" header="Name" sortable></Column>
-      <Column field="id" header="Favorite" sortable style="width: 50px">
-        <template #body="pokemon">
-          <div style="justify-content: center; display: flex">
+      <div class="filter-input">
+        <InputGroup style="margin-bottom: 20px"
+        >
+          <InputGroupAddon style="background-color: transparent;">
+            <i class="pi pi-search icon"></i>
+          </InputGroupAddon>
+          <InputText
+            v-model="nameFilter"
+            @input="onInputChange"
+            placeholder="Filter by name"
+          >
+          </InputText>
+        </InputGroup>
+      </div>
+      <DataTable1
+        ref="dataTable"
+        removableSort
+        style="border: none;"
+        :value="
+          showFavorites
+            ? filteredPokemons
+            : nameFilter
+            ? filteredPokemons
+            : pokemons
+        "
+        tableStyle="min-width: 5rem"
+        paginator
+        :rows="10"
+        :rowsPerPageOptions="[10, 25, 50, 100]"
+        @row-click="fetchPokemonDetails"
+      >
+        <Column field="name" header="Name" sortable></Column>
+        <Column field="id" header="Favorite" sortable style="width: 50px">
+          <template #body="pokemon">
+            <div style="justify-content: center; display: flex">
+              <Button
+                rounded
+                severity="secondary"
+                text
+                @click.stop="toggleFavorite(pokemon.data.id)"
+                small
+                class="small-button"
+              >
+                <i
+                  :class="
+                    pokemon.data.favorite ? 'pi pi-star-fill' : 'pi pi-star'
+                  "
+                  style="cursor: pointer"
+                />
+              </Button>
+            </div>
+          </template>
+        </Column>
+        <template #empty>
+          <div style="text-align: center">
+            <h2 style="font-size: 36px; font-weight: 700;">Uh-oh!</h2>
+            <p style="font-size: 20px;">You look lost in your journey!</p>
             <Button
+              class="red"
               rounded
-              severity="secondary"
-              raised
-              text
-              @click.stop="toggleFavorite(pokemon.data.id)"
-              small
-              class="small-button"
-            >
-              <i
-                :class="
-                  pokemon.data.favorite ? 'pi pi-star-fill' : 'pi pi-star'
-                "
-                style="cursor: pointer"
-              />
-            </Button>
+              label="Go back home"
+              @click="reset()"
+            />
           </div>
         </template>
-      </Column>
-      <template #empty>
-        <div style="text-align: center">
-          <h2>Uh-oh!</h2>
-          <p><b> You look lost in your journey! </b></p>
-          <Button
-            severity="danger"
-            rounded
-            raised
-            label="Go back home"
-            @click="reset()"
-          />
-        </div>
-      </template>
-    </DataTable1>
-    <PokemonDetail
-      v-if="selectedPokemonId"
-      :pokemonId="selectedPokemonId"
-      :visible="isModalVisible"
-      @close="closeModal()"
-      :isFavorite="selectedPokemonFavorite"
-    />
+      </DataTable1>
+      <PokemonDetail
+        v-if="selectedPokemonId"
+        :pokemonId="selectedPokemonId"
+        :visible="isModalVisible"
+        @close="closeModal()"
+        :isFavorite="selectedPokemonFavorite"
+      />
 
-    <div class="button-group">
-      <Button
-        :severity="showFavorites ? 'secondary' : 'danger'"
-        @click="toggleFilter(false)"
-        rounded
-        raised
-      >
-        <i class="pi pi-list icono" />
-        <span>All</span>
-      </Button>
-      <Button
-        :severity="showFavorites ? 'danger' : 'secondary'"
-        @click="toggleFilter(true)"
-        rounded
-        raised
-      >
-        <i class="pi pi-star icono" />
-        <span>Favorites</span>
-      </Button>
+      <div class="button-group">
+        <Button
+          @click="toggleFilter(false)"
+          rounded
+          style="font-family: 'Lato'; color: white; border: 1px solid white;"
+          :style="{
+            backgroundColor: showFavorites ? '#aaa' : '#F22539',
+            color: 'white',
+            border: '1px solid #ccc',
+          }"
+        >
+          <i class="pi pi-list icono" />
+          <span>All</span>
+        </Button>
+        <Button
+          @click="toggleFilter(true)"
+          rounded
+          style="font-family: 'Lato'; color: white; border: 1px solid white;"
+          :style="{
+            backgroundColor: showFavorites ? '#F22539' : '#aaa',
+            color: 'white',
+            border: '1px solid #ccc',
+          }"
+        >
+          <i class="pi pi-star-fill icono" />
+          <span>Favorites</span>
+        </Button>
+      </div>
     </div>
-  </div>
-
   </div>
 </template>
 
@@ -108,8 +115,10 @@ import Column from "primevue/column";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import PokemonDetail from "../components/PokemonDetail.vue";
-import Loading from '../components/Loading.vue';
-import '../css/globalStyles.css'
+import Loading from "../components/Loading.vue";
+import "../css/globalStyles.css";
+import InputGroup from "primevue/inputgroup";
+import InputGroupAddon from "primevue/inputgroupaddon";
 
 export default {
   name: "pokemon-list",
@@ -129,7 +138,9 @@ export default {
     Button,
     InputText,
     PokemonDetail,
-    Loading
+    Loading,
+    InputGroup,
+    InputGroupAddon
   },
 
   mounted() {
@@ -144,6 +155,7 @@ export default {
           ...pokemon,
           id,
           favorite: this.favoritePokemons[id] || false,
+          name: this.capitalize(pokemon.name)
         };
       });
     },
@@ -188,18 +200,21 @@ export default {
       this.selectedPokemonFavorite = null;
       this.isModalVisible = false;
     },
-    reset(){
+    reset() {
       this.nameFilter = null;
       this.showFavorites = false;
-    }
+    },
+    capitalize(word) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    },
   },
 };
 </script>
 
 <style scoped>
-
 .container {
-  max-width: 500px;
+  max-width: 570px;
+  padding: 0 15px;
   margin: 0 auto;
 }
 
@@ -207,6 +222,11 @@ export default {
   display: flex;
   justify-content: space-between;
   gap: 10px;
+  position: sticky;
+  bottom: 0;
+  background-color: white; 
+  padding: 10px;
+  border-top: 1px solid #ccc; 
 }
 
 button {
@@ -221,9 +241,10 @@ button {
 }
 
 .small-button {
-  width: 30px; /* Ancho del botón */
-  height: 30px; /* Altura del botón */
-  font-size: 12px; /* Tamaño del texto/icono */
-  padding: 0; /* Elimina relleno adicional */
+  width: 30px;
+  height: 30px;
+  font-size: 12px; 
+  padding: 0; 
 }
+
 </style>
