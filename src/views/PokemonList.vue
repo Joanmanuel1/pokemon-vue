@@ -11,7 +11,7 @@
           <InputText
             v-model="nameFilter"
             @input="onInputChange"
-            placeholder="Filter by name"
+            placeholder="Search by name"
           >
           </InputText>
         </InputGroup>
@@ -34,7 +34,7 @@
         @row-click="fetchPokemonDetails"
       >
         <Column field="name" header="Name" sortable></Column>
-        <Column field="id" header="Favorite" sortable style="width: 50px">
+        <Column field="favorite" header="Favorite" sortable style="width: 50px">
           <template #body="pokemon">
             <div style="justify-content: center; display: flex">
               <Button

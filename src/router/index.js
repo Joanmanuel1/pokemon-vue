@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
-import OtherView from '../views/PokemonList.vue';
+import pokemonList from '../views/PokemonList.vue';
 
 const routes = [
   {
@@ -11,7 +11,7 @@ const routes = [
   {
     path: '/pokemon-list',
     name: 'pokemon-list',
-    component: OtherView,
+    component: pokemonList,
   },
 ];
 
